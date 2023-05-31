@@ -9,6 +9,7 @@ import path from "path";
 import db from "./models";
 import APILimiter from "./src/middleware/limit";
 import CustomerRouter from "./src/customer/customerRouter";
+import RentCarRouter from "./src/rentcar/rentCarRouter";
 const app: Application = express();
 
 const port: number = 3308;
@@ -17,7 +18,7 @@ const { sequelize } = db;
 sequelize
   .sync({ force: false })
   .then(() => {
-    console.log("데이터베이스 연결 성공");
+    console.log("success conenct to mysql database!!");
   })
   .catch((err: any) => {
     console.error(err);
@@ -34,3 +35,15 @@ app.listen(port, function () {
 });
 
 app.use("/customer", APILimiter, CustomerRouter);
+app.use("/rentcar", RentCarRouter);
+
+/*
+필요기능
+1. 로그인 (완료)
+2. 렌터카 검색 (완료)
+3. 렌터카 예약 / 취소 ()
+4. 렌터카 대여 / 반납
+5. 대여 내역
+6. 관리자 계정 페이지 (쿼리 3개)
+7. email (반납 안내)
+*/

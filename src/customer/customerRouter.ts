@@ -6,5 +6,6 @@ const CustomerRouter = express.Router();
 //UserRouter.get("/:id",UserController.getUserName);
 //UserRouter.get("/test",UserController.authUser);
 CustomerRouter.get("/list/", UserController.getUserList);
+CustomerRouter.post("/login", UserController.login);
 
 export = CustomerRouter;

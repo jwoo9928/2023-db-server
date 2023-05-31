@@ -8,7 +8,7 @@ interface CarModelAttributes {
   numberOfSeats: number;
 }
 
-class RentCar extends Model<CarModelAttributes> {
+class CarModel extends Model<CarModelAttributes> {
   public modelName!: string;
   public vehicleType!: string;
   public rentRatePerDay!: number;
@@ -37,4 +37,4 @@ class RentCar extends Model<CarModelAttributes> {
   }
 }
 
-export default RentCar;
+export default CarModel;

@@ -9,8 +9,31 @@ const getUserList = async (req: Request, res: Response, next: NextFunction) => {
   });
 };
 
+const login = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { cno, pwd } = req.body;
+    const isAvailable = await Customer.findOne({
+      where: { cno: cno, passwd: pwd },
+    });
+    if (isAvailable) {
+      res.status(200).json({
+        customerInfo: isAvailable,
+      });
+    } else {
+      res.status(404).json({
+        result: "404 Not Found",
+      });
+    }
+  } catch (e) {
+    res.status(404).json({
+      result: "404 error",
+    });
+  }
+};
+
 const CustomerController = {
   getUserList,
+  login,
 };
 
 export default CustomerController;
