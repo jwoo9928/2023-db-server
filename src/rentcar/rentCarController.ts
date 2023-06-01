@@ -11,7 +11,6 @@ const searchRentCar = async (
   try {
     CarModel;
     const { types } = req.body;
-    console.log("req.doby: ", req.body);
     const carModels = await CarModel.findAll({
       where: {
         [Op.or]: types.map((type: string) => {
@@ -26,7 +25,6 @@ const searchRentCar = async (
         });
       })
     );
-    console.log("carModels", carModels);
     res.status(200).json({
       customerInfo: rentCars,
     });
@@ -37,8 +35,40 @@ const searchRentCar = async (
   }
 };
 
+const rentRentCar = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const { licensePlateNo } = req.body;
+    await RentCar.update(
+      {
+        dateRented: null as any,
+        dateDue: null as any,
+        cno: null as any,
+      },
+      { where: { licensePlateNo } }
+    );
+  } catch (e) {
+    res.status(404).json({
+      result: `404 Not Found. ${e} `,
+    });
+  }
+};
+
+const returnRentCar = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { licensePlateNo } = req.body;
+  await RentCar.update(
+    { dateRented: null as any, dateDue: null as any, cno: null as any },
+    { where: { licensePlateNo } }
+  );
+};
+
 const RentCarController = {
   searchRentCar,
+  rentRentCar,
+  returnRentCar,
 };
 
 export default RentCarController;
