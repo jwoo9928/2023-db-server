@@ -12,6 +12,7 @@ import CustomerRouter from "./src/customer/customerRouter";
 import RentCarRouter from "./src/rentcar/rentCarRouter";
 import ReserveHistoryRouter from "./src/reserveHistory/ReserveHistoryRouter";
 import ReserveRouter from "./src/reserve/ReserveRouter";
+import activateObserver from "./src/middleware/timeObserver";
 const app: Application = express();
 
 const port: number = 3308;
@@ -35,6 +36,8 @@ app.use(
 app.listen(port, function () {
   console.log(`App is listening on port ${port} !`);
 });
+
+activateObserver();
 
 app.use("/customer", APILimiter, CustomerRouter);
 app.use("/rentcar", RentCarRouter);
