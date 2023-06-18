@@ -10,7 +10,8 @@ const searchRentCar = async (
 ) => {
   try {
     CarModel;
-    const { types } = req.body;
+    const { types, startDate, endDate } = req.body;
+
     const carModels = await CarModel.findAll({
       where: {
         [Op.or]: types.map((type: string) => {
@@ -21,12 +22,36 @@ const searchRentCar = async (
     const rentCars = await Promise.all(
       carModels.map(async (model: CarModel) => {
         return await RentCar.findAll({
-          where: { modelName: model.modelName },
+          where: {
+            modelName: model.modelName,
+            [Op.or]: [
+              {
+                [Op.or]: [
+                  {
+                    dateRented: {
+                      [Op.lt]: startDate,
+                    },
+                    dateDue: {
+                      [Op.lt]: startDate,
+                    },
+                  },
+                  {
+                    dateRented: {
+                      [Op.gt]: endDate,
+                    },
+                    dateDue: {
+                      [Op.gt]: endDate,
+                    },
+                  },
+                ],
+              },
+            ],
+          },
         });
       })
     );
     res.status(200).json({
-      customerInfo: rentCars,
+      rentCars: rentCars,
     });
   } catch (e) {
     res.status(404).json({

@@ -13,6 +13,8 @@ import RentCarRouter from "./src/rentcar/rentCarRouter";
 import ReserveHistoryRouter from "./src/reserveHistory/ReserveHistoryRouter";
 import ReserveRouter from "./src/reserve/ReserveRouter";
 import activateObserver from "./src/middleware/timeObserver";
+const cors = require("cors");
+
 const app: Application = express();
 
 const port: number = 3308;
@@ -26,6 +28,7 @@ sequelize
   .catch((err: any) => {
     console.error(err);
   });
+app.use(cors({ credentials: true, origin: "http://localhost:3000" }));
 app.use(express.json());
 app.use(
   morgan("combined", {
